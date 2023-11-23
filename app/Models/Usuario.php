@@ -16,4 +16,9 @@ class Usuario extends Model
         //'apellido_materno',
         //'correo'
         ];
+
+        public function perros(){
+            return $this->belongsTo(Usuario::class);
+
+        }
 }

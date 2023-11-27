@@ -47,18 +47,19 @@ class UsuarioController extends Controller
         //$datosUsuario = request()->except('_token');
         //Usuario::create($datosUsuario);
 
-        $response = Http::get('http://localhost:8002');
+        $response = Http::get('http://localhost:8002/api/perros/aleatorio');
         $perro = $response->json();
 
-    // Asignar un perro al nuevo nombre
-        $datosUsuario->perros()->create([
-        'nombre' => $perro['nombre'],
-        'dueño_id' => $perro['dueño_id'],
-    ]);
-
-
-
-        return redirect('usuarios');
+        if ($perro !== null) {
+            // Asignar un perro al nuevo nombre
+            $datosUsuario->perros()->create([
+                'nombre' => $perro['nombre'],
+                'dueño_id' => $perro['dueño_id'],
+            ]);
+        } else {
+            return redirect('usuarios')->with('error', 'No se pudo obtener un perro.');
+        }
+        //return redirect('usuarios.index');
     }
 
     /**
